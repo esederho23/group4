@@ -4,8 +4,8 @@ import time
 SOUND_SPEED=340
 TRIG_PULSE_DURATION_US=10
 
-trigger = Pin(10, Pin.OUT) # pin 15 in Pico
-echo = Pin(9, Pin.IN)  # pin 14 in Pico
+trigger = Pin(10, Pin.OUT) # pin 10 in Pico
+echo = Pin(9, Pin.IN)  # pin 9 in Pico
 
 while True:
     trigger.value(0)
