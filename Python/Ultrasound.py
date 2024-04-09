@@ -4,18 +4,19 @@ import time
 SOUND_SPEED=340
 TRIG_PULSE_DURATION_US=10
 
-trig_pin = Pin(15, Pin.OUT) # pin 15 in Pico
-echo_pin = Pin(14, Pin.IN)  # pin 14 in Pico
+trigger = Pin(10, Pin.OUT) # pin 15 in Pico
+echo = Pin(9, Pin.IN)  # pin 14 in Pico
 
 while True:
-    trig_pin.value(0)
+    trigger.value(0)
     time.sleep_us(5)
-    trig_pin.value(1)
+    trigger.value(1)
     time.sleep_us(TRIG_PULSE_DURATION_US)
-    trig_pin.value(0)
+    trigger.value(0)
 
-    ultrason_duration = time_pulse_us(echo_pin, 1, 30000)
+    ultrason_duration = time_pulse_us(echo, 1, 30000)
     distance_cm = SOUND_SPEED * ultrason_duration / 20000
-
+    print("Trigger pin value:", trigger.value())
+    print("Echo Pin value:", echo.value())
     print(f"Distance : {distance_cm} cm")
     time.sleep_ms(500)
