@@ -1,45 +1,48 @@
-from machine import Pin, PWM
-from time import sleep
+from machine import Pin
+import utime
 
-# Define pin numbers
-pwmPIN=("GP16")
-cwPin=("GP14") 
-acwPin=("GP15")
+m1 = Pin("GP21", Pin.OUT)
+m2 = Pin("GP20", Pin.OUT)
+m3 = Pin("GP19", Pin.OUT)
+m4 = Pin("GP18", Pin.OUT)
 
-# Define function to control motor movement
-def motorMove(speed,direction,speedGP,cwGP,acwGP):
-    # Ensure speed is within 0-100
-    if speed > 100:
-        speed = 100
-    if speed < 0:
-        speed = 0
-    
-    # Initialize Pico for mot speed control
-    Speed = PWM(Pin(speedGP))
-    Speed.freq(50)
-    
-    # Initialize colckwise and anti-clockwise pins
-    cw = Pin(cwGP, Pin.OUT)
-    acw = Pin(acwGP, Pin.OUT)
-    
-    # Set motor speed using duty cycle
-    Speed.duty_u16(int(speed / 100 * 65536))
-    
-    # Control motor rotation direction
-    if direction < 0:
-        cw.value(0)
-        acw.value(1)
-    elif direction == 0:
-        cw.value(0)
-        acw.value(0)
-    elif direction > 0:
-        cw.value(1)
-        acw.value(0)
-# Example usage: Full-speed anti-clockwise rotation for 5 seconds
-motorMove(100, -1, pwmPIN, cwPin, acwPin)
-sleep(5)
+en1 = Pin("GP17", Pin.OUT)
+en2 = Pin("GP16", Pin.OUT)
 
-# Turn off the motor
-motorMove(0, 0, pwmPIN, cwPin, acwPin)
+def Enable_motor():
+    en1(1)  # motor 1 enable, set value 0 to disable
+    en2(1)  # motor 2 enable, set value 0 to disable
 
+def Motor1_forward():
+    m1(1)
+    m2(0)
     
+def Motor1_reverse():
+    m1(0)
+    m2(1)
+    
+def Motor2_forward():
+    m3(1)
+    m4(0)
+    
+def Motor2_reverse():
+    m3(0)
+    m4(1)
+    
+def Motor_stop():
+    m1(0)
+    m2(0)
+    m3(0)
+    m4(0)
+    
+while True:
+    Enable_motor()
+    Motor1_forward()
+    Motor2_forward()
+    utime.sleep(2) # Both motor in Forward direction for 2 seconds.
+    Motor_stop()
+    utime.sleep(2) # Both motor in Stop position.
+    Motor1_reverse()
+    Motor2_reverse()
+    utime.sleep(2) # Both motor in Reverse direction for 2 seconds.
+        
