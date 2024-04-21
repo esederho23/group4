@@ -86,12 +86,17 @@ while True:
     ultrasound_duration = time_pulse_us(echo, 1, 30000)
     distance_cm = SOUND_SPEED * ultrasound_duration / 20000
     
+    #Power motors
+    Enable_motor()
     
     # Check if gyro says stop
     if ay < -0.35:
         stop_buzzer()
+        Motor_stop()
         break
     else:
+        Motor1_forward()
+        Motor2_forward()
         sound_buzzer()
         
     # Use motors and turn
