@@ -94,6 +94,12 @@ while True:
         stop_buzzer()
         Motor_stop()
         break
+    elif distance_cm < 10:
+        Motor_stop()
+        sleep_ms(500)
+        Motor1_forward()
+        Motor2_reverse()
+        sleep_ms(1000)    
     else:
         Motor1_forward()
         Motor2_forward()
