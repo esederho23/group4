@@ -26,6 +26,43 @@ def sound_buzzer():
 # Function to stop the buzzer
 def stop_buzzer():
     buzzer.duty_u16(0)
+    
+# Initialize motors
+m1 = Pin("GP21", Pin.OUT)
+m2 = Pin("GP20", Pin.OUT)
+m3 = Pin("GP19", Pin.OUT)
+m4 = Pin("GP18", Pin.OUT)
+
+en1 = Pin("GP17", Pin.OUT)
+en2 = Pin("GP16", Pin.OUT)
+
+# Function to enable motors, power on
+def Enable_motor():
+    en1(1)  # motor 1 enable, set value 0 to disable
+    en2(1)  # motor 2 enable, set value 0 to disable
+
+# Other functions for motor
+def Motor1_forward():
+    m1(1)
+    m2(0)
+    
+def Motor1_reverse():
+    m1(0)
+    m2(1)
+    
+def Motor2_forward():
+    m3(1)
+    m4(0)
+    
+def Motor2_reverse():
+    m3(0)
+    m4(1)
+    
+def Motor_stop():
+    m1(0)
+    m2(0)
+    m3(0)
+    m4(0)
 
 # Main loop
 while True:
@@ -49,12 +86,24 @@ while True:
     ultrasound_duration = time_pulse_us(echo, 1, 30000)
     distance_cm = SOUND_SPEED * ultrasound_duration / 20000
     
+    
     # Check if gyro says stop
     if ay < -0.35:
         stop_buzzer()
         break
     else:
         sound_buzzer()
+        
+    # Use motors and turn
+    #if distance_cm < 10:
+        #Motor_stop()
+        #sleep_ms(500)
+        #Motor1_forward()
+        #Motor2_reverse()
+        #sleep_ms(1000)
+    #else:
+        #Motor1_forward()
+        #Motor2_forward()
     
     # Print data for debugging
     print("ax",ax,"\t","ay",ay,"\t","az",az,"\t","gx",gx,"\t","gy",gy,"\t","gz",gz,"\t","Temperature",tem,"        ",end="\r")
