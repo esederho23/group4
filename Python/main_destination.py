@@ -2,7 +2,6 @@ from imu import MPU6050
 from utime import sleep, sleep_ms
 from machine import time_pulse_us
 from machine import Pin, I2C, PWM
-import time
 
 # Initialize I2C and MPU 6050
 i2c = I2C(0, sda=Pin(0), scl=Pin(1), freq=400000)
