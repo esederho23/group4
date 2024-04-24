@@ -19,6 +19,9 @@ TRIG_PULSE_DURATION_US = 10
 trigger = Pin("GP7", Pin.OUT)
 echo = Pin("GP6", Pin.IN)
 
+# Initialize wait_done flag
+wait_done = False
+
 # Function to sound the buzzer
 def sound_buzzer():
     buzzer.duty_u16(1000)
@@ -64,15 +67,23 @@ def Motor_stop():
     m3(0)
     m4(0)
 
+# Set alarm in ms
+def Alarm_time():
+    sleep_ms(5000)
+    
+    
 #Power motors
 Enable_motor()
 
-#Set alarm
-sleep_ms(5000)
-sound_buzzer()
 
 # Main loop
 while True:
+    
+    if not wait_done:
+        Alarm_time()
+        sound_buzzer()
+        wait_done = True
+        
     # Read accelerometer data
     ax = round(imu.accel.x, 2)
     ay = round(imu.accel.y, 2)
@@ -94,9 +105,6 @@ while True:
     distance_cm = SOUND_SPEED * ultrasound_duration / 20000
     
     
-    #Power motors
-    
-    
     # Check if gyro says stop
     if ay < -0.35:
         stop_buzzer()
@@ -109,6 +117,7 @@ while True:
         Motor2_reverse()
         sleep_ms(1000)    
     else:
+        sound_buzzer()
         Motor1_forward()
         Motor2_forward()
 
