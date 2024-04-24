@@ -64,6 +64,13 @@ def Motor_stop():
     m3(0)
     m4(0)
 
+#Power motors
+Enable_motor()
+
+#Set alarm
+sleep_ms(5000)
+sound_buzzer()
+
 # Main loop
 while True:
     # Read accelerometer data
@@ -86,8 +93,9 @@ while True:
     ultrasound_duration = time_pulse_us(echo, 1, 30000)
     distance_cm = SOUND_SPEED * ultrasound_duration / 20000
     
+    
     #Power motors
-    Enable_motor()
+    
     
     # Check if gyro says stop
     if ay < -0.35:
@@ -103,7 +111,7 @@ while True:
     else:
         Motor1_forward()
         Motor2_forward()
-        sound_buzzer()
+
         
     # Use motors and turn
     #if distance_cm < 10:
